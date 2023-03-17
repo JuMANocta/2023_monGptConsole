@@ -3,11 +3,11 @@
 ## Création d'un BookMarklet
 Un bookmarklet est un favori qui contient du code JavaScript au lieu d'une URL classique. Pour créer un bookmarklet, vous devez préfixer votre code JavaScript par **javascript:** et l'ajouter comme favori dans votre navigateur.
 
-### Création d'un bookmarklet avec un code JavaScript compressé
+### Création d'un bookmarklet de modification de page html un code JavaScript compressé
 ```javascript
 javascript:(function(){function removeElementsByClassName(e){const n=document.getElementsByClassName(e);for(;n[0];)n[0].parentNode.removeChild(n[0])}function updateElementsByClassSelector(e,n){const t=document.querySelectorAll(e);for(let e=0;e<t.length;e++)t[e].setAttribute("class",n)}removeElementsByClassName("dark hidden bg-gray-900 md:fixed md:inset-y-0 md:flex md:w-[260px] md:flex-col"),updateElementsByClassSelector('div[class="flex h-full flex-1 flex-col md:pl-[260px]"]',"flex h-full flex-1 flex-col"),updateElementsByClassSelector('div[class="text-base gap-4 md:gap-6 md:max-w-2xl lg:max-w-2xl xl:max-w-3xl p-4 md:py-6 flex lg:px-0 m-auto"]',"text-base gap-4 md:gap-6 lg:max-w-2xl xl:max-w-3xl p-4 md:py-6 flex lg:px-0");function updateElementsOnMutation(e){for(const n of e)if("childList"===n.type)for(const e of n.addedNodes)e.nodeType===Node.ELEMENT_NODE&&"DIV"===e.nodeName&&(updateElementsByClassSelector('div[class="flex h-full flex-1 flex-col md:pl-[260px]"]',"flex h-full flex-1 flex-col"),updateElementsByClassSelector('div[class="text-base gap-4 md:gap-6 md:max-w-2xl lg:max-w-2xl xl:max-w-3xl p-4 md:py-6 flex lg:px-0 m-auto"]',"text-base gap-4 md:gap-6 lg:max-w-2xl xl:max-w-3xl p-4 md:py-6 flex lg:px-0"))}const e=document.querySelector('div[class="flex flex-col items-center text-sm dark:bg-gray-800"]');if(e){const n=new MutationObserver(updateElementsOnMutation);n.observe(e,{childList:!0,subtree:!0})}})();
 ```
-### Création d'un bookmarklet avec un code JavaScript non compressé
+### Création d'un bookmarklet pour imprimer la page en PDF avec un code JavaScript non compressé
 ```javascript
 javascript:(function() {
     function createPdf() {
