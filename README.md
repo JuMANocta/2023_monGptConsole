@@ -8,10 +8,12 @@ Un bookmarklet est un favori qui contient du code JavaScript au lieu d'une URL c
 
 ```jsx
 // Création d'un bookmarklet de modification de page html un code JavaScript compressé
-javascript:(function(){function removeElementsByClassName(e){const t=document.getElementsByClassName(e);while(t[0]){t[0].parentNode.removeChild(t[0]);}}function updateElementsByClassSelector(e,t){const n=document.querySelectorAll(e);for(let e=0;e<n.length;e++){n[e].setAttribute("class",t);}}removeElementsByClassName("dark bg-gray-900 md:flex md:w-[260px] md:flex-col"),updateElementsByClassSelector('div[class="flex h-full flex-1 flex-col md:pl-[260px]"]','flex h-full flex-1 flex-col'),updateElementsByClassSelector('div[class="text-base gap-4 md:gap-6 md:max-w-2xl lg:max-w-xl xl:max-w-3xl p-4 md:py-6 flex lg:px-0 m-auto"]','text-base gap-4 md:gap-6 p-4 md:py-6 flex lg:px-0');function updateElementsOnMutation(e){for(const t of e){if("childList"===t.type){t.addedNodes.forEach((e)=>{if(e.nodeType===Node.ELEMENT_NODE&&"DIV"===e.nodeName){updateElementsByClassSelector('div[class="flex h-full flex-1 flex-col md:pl-[260px]"]','flex h-full flex-1 flex-col'),updateElementsByClassSelector('div[class="text-base gap-4 md:gap-6 md:max-w-2xl lg:max-w-xl xl:max-w-3xl p-4 md:py-6 flex lg:px-0 m-auto"]','text-base gap-4 md:gap-6 p-4 md:py-6 flex lg:px-0')}})}}}const e=document.querySelector('div[class="flex flex-col items-center text-sm dark:bg-gray-800"]');if(e){const t=new MutationObserver(updateElementsOnMutation),n={childList:!0,subtree:!0};t.observe(e,n)}})();
+javascript:(function(){const barre_navigation='dark flex-shrink-0 overflow-x-hidden bg-gray-900',elargir_contenu='div[class="flex p-4 gap-4 text-base md:gap-6 md:max-w-2xl lg:max-w-xl xl:max-w-3xl md:py-6 lg:px-0 m-auto"]',contenu_elargir='flex p-4 gap-4 text-base lg:px-0 m-auto',element_observer='div[class="flex flex-col items-center text-sm dark:bg-gray-800"]';function removeElementsByClassName(e){let n=document.getElementsByClassName(e);n=Array.from(n);for(const e of n)e.parentNode.removeChild(e)}function updateElementsByClassSelector(e,n){const l=document.querySelectorAll(e);for(let e=0;e<l.length;e++)l[e].setAttribute('class',n)}function updateElementsOnMutation(e){for(const n of e)'childList'===n.type&&Array.from(n.addedNodes).forEach(e=>{e.nodeType===Node.ELEMENT_NODE&&'DIV'===e.nodeName&&updateElementsByClassSelector(elargir_contenu,contenu_elargir)})}removeElementsByClassName(barre_navigation),updateElementsByClassSelector(elargir_contenu,contenu_elargir);const n=document.querySelector(element_observer);n&&(new MutationObserver(updateElementsOnMutation).observe(n,{childList:!0,subtree:!0}))})();
+
 
 // Création d'un bookmarklet pour imprimer la page en PDF avec un code JavaScript compressé
-javascript:(function(){function createPdf(){removeElementsByClassName('absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2');const element=document.querySelector('main');if(element){html2pdf().from(element).save();}else{alert("Élément non trouvé");}}function removeElementsByClassName(className){const elements=document.getElementsByClassName(className);while(elements[0]){elements[0].parentNode.removeChild(elements[0]);}}function loadScript(url,callback){const script=document.createElement("script");script.type="text/javascript";script.src=url;script.onload=callback;document.head.appendChild(script);}if(typeof html2pdf==="undefined"){const html2pdfUrl="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js";loadScript(html2pdfUrl,createPdf);}else{createPdf();}})();
+javascript:(function(){const e='absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2';function t(t){let n=document.getElementsByClassName(t);n=Array.from(n);for(const t of n)t.parentNode.removeChild(t)}function n(){t(e);const t=document.querySelector('main');t?((t,n)=>{const e=document.createElement('script');e.type='text/javascript',e.src=t,e.onload=n,document.head.appendChild(e)})('https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js',()=>{let e={margin:[1,1],filename:'monGPT.pdf',image:{type:'jpeg',quality:.98},html2canvas:{scale:3,dpi:300,letterRendering:!0},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}};html2pdf().set(e).from(t).save()}):alert('Élément non trouvé')}void 0===window.html2pdf?n():n()})();
+
 ```
 
 1. Créez un **nouveau favori** dans votre navigateur et copiez le code compressé précédent dans **l'URL du favori**. Vous pouvez également donner un nom pertinent à votre favori, par exemple "MonBookmarkletGPT".
@@ -62,10 +64,16 @@ Ce code peut directement être injecté dans la console du navigateur sur la pag
 ### Bookmarklet de modification de page html
 
 ```jsx
+const barre_navigation = 'dark flex-shrink-0 overflow-x-hidden bg-gray-900';
+const elargir_contenu = 'div[class="flex p-4 gap-4 text-base md:gap-6 md:max-w-2xl lg:max-w-xl xl:max-w-3xl md:py-6 lg:px-0 m-auto"]';
+const contenu_elargir = 'flex p-4 gap-4 text-base lg:px-0 m-auto';
+const element_observer = 'div[class="flex flex-col items-center text-sm dark:bg-gray-800"]'
+
 function removeElementsByClassName(className) {
-    const elements = document.getElementsByClassName(className);
-    while (elements[0]) {
-        elements[0].parentNode.removeChild(elements[0]);
+    let elements = document.getElementsByClassName(className);
+    elements = Array.from(elements);
+    for (const element of elements) {
+        element.parentNode.removeChild(element);
     }
 }
 
@@ -76,25 +84,23 @@ function updateElementsByClassSelector(selector, newClasses) {
     }
 }
 
-removeElementsByClassName("dark bg-gray-900 md:flex md:w-[260px] md:flex-col");
-updateElementsByClassSelector('div[class="flex h-full flex-1 flex-col md:pl-[260px]"]', 'flex h-full flex-1 flex-col');
-updateElementsByClassSelector('div[class="text-base gap-4 md:gap-6 md:max-w-2xl lg:max-w-xl xl:max-w-3xl p-4 md:py-6 flex lg:px-0 m-auto"]', 'text-base gap-4 md:gap-6 p-4 md:py-6 flex lg:px-0');
-
 function updateElementsOnMutation(mutationsList) {
     for (const mutation of mutationsList) {
         if (mutation.type === 'childList') {
-            mutation.addedNodes.forEach((node) => {
+            Array.from(mutation.addedNodes).forEach((node) => {
                 if (node.nodeType === Node.ELEMENT_NODE && node.nodeName === 'DIV') {
-                    updateElementsByClassSelector('div[class="flex h-full flex-1 flex-col md:pl-[260px]"]', 'flex h-full flex-1 flex-col');
-                    updateElementsByClassSelector('div[class="text-base gap-4 md:gap-6 md:max-w-2xl lg:max-w-xl xl:max-w-3xl p-4 md:py-6 flex lg:px-0 m-auto"]', 'text-base gap-4 md:gap-6 p-4 md:py-6 flex lg:px-0');
+                    updateElementsByClassSelector(elargir_contenu, contenu_elargir);
                 }
             });
         }
     }
 }
 
+removeElementsByClassName(barre_navigation);
+updateElementsByClassSelector(elargir_contenu, contenu_elargir);
+
 // Sélectionner l'élément à observer
-const targetNode = document.querySelector('div[class="flex flex-col items-center text-sm dark:bg-gray-800"]');
+const targetNode = document.querySelector(element_observer);
 
 if (targetNode) {
     // Configurer l'observateur
@@ -109,11 +115,20 @@ if (targetNode) {
 ## Bookmarklet pour imprimer la page en PDF
 
 ```jsx
+const element_supprimer = 'absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2';
+
 function createPdf() {
-    removeElementsByClassName('absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2')
+    removeElementsByClassName(element_supprimer);
     const element = document.querySelector('main');
     if (element) {
-        html2pdf().from(element).save();
+        let opt = {
+            margin:       [1, 1], //marges [haut, gauche, bas, droite] ou [vertical, horizontal]
+            filename:     'monGPT.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 3, dpi: 300, letterRendering: true }, // augmenter dpi et scale pour améliorer la qualité
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
     } else {
         alert("Élément non trouvé");
     }
