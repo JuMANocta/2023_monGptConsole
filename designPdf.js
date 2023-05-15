@@ -1,7 +1,13 @@
+const barre_navigation = 'dark flex-shrink-0 overflow-x-hidden bg-gray-900';
+const elargir_contenu = 'div[class="flex p-4 gap-4 text-base md:gap-6 md:max-w-2xl lg:max-w-xl xl:max-w-3xl md:py-6 lg:px-0 m-auto"]';
+const contenu_elargir = 'flex p-4 gap-4 text-base lg:px-0 m-auto';
+const element_observer = 'div[class="flex flex-col items-center text-sm dark:bg-gray-800"]'
+
 function removeElementsByClassName(className) {
-    const elements = document.getElementsByClassName(className);
-    while (elements[0]) {
-        elements[0].parentNode.removeChild(elements[0]);
+    let elements = document.getElementsByClassName(className);
+    elements = Array.from(elements);
+    for (const element of elements) {
+        element.parentNode.removeChild(element);
     }
 }
 
@@ -15,22 +21,21 @@ function updateElementsByClassSelector(selector, newClasses) {
 function updateElementsOnMutation(mutationsList) {
     for (const mutation of mutationsList) {
         if (mutation.type === 'childList') {
-            mutation.addedNodes.forEach((node) => {
+            Array.from(mutation.addedNodes).forEach((node) => {
                 if (node.nodeType === Node.ELEMENT_NODE && node.nodeName === 'DIV') {
-                    updateElementsByClassSelector('div[class="flex h-full flex-1 flex-col md:pl-[260px]"]', 'flex h-full flex-1 flex-col');
-                    updateElementsByClassSelector('div[class="text-base gap-4 md:gap-6 md:max-w-2xl lg:max-w-xl xl:max-w-3xl p-4 md:py-6 flex lg:px-0 m-auto"]', 'text-base gap-4 md:gap-6 p-4 md:py-6 flex lg:px-0');
+                    updateElementsByClassSelector(elargir_contenu, contenu_elargir);
                 }
             });
         }
     }
 }
 
-removeElementsByClassName("dark hidden bg-gray-900 md:fixed md:inset-y-0 md:flex md:w-[260px] md:flex-col");
-updateElementsByClassSelector('div[class="flex h-full flex-1 flex-col md:pl-[260px]"]', 'flex h-full flex-1 flex-col');
-updateElementsByClassSelector('div[class="text-base gap-4 md:gap-6 md:max-w-2xl lg:max-w-xl xl:max-w-3xl p-4 md:py-6 flex lg:px-0 m-auto"]', 'text-base gap-4 md:gap-6 p-4 md:py-6 flex lg:px-0');
+
+removeElementsByClassName(barre_navigation);
+updateElementsByClassSelector(elargir_contenu, contenu_elargir);
 
 // Sélectionner l'élément à observer
-const targetNode = document.querySelector('div[class="flex flex-col items-center text-sm dark:bg-gray-800"]');
+const targetNode = document.querySelector(element_observer);
 
 if (targetNode) {
     // Configurer l'observateur
