@@ -30,7 +30,6 @@ function updateElementsOnMutation(mutationsList) {
     }
 }
 
-
 removeElementsByClassName(barre_navigation);
 updateElementsByClassSelector(elargir_contenu, contenu_elargir);
 
